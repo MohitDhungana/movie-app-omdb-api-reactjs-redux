@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { searchMovie } from '../../actions/searchActions';
+import {
+  searchMovie,
+  fetchMovies,
+  setLoading,
+} from '../../actions/searchActions';
 
 class SearchForm extends Component {
   onChange = (e) => {
     this.props.searchMovie(e.target.value);
+  };
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.props.fetchMovies(this.props.text);
+    this.props.setLoading();
   };
 
   render() {
@@ -15,7 +24,7 @@ class SearchForm extends Component {
             <i className="fa fa-search"> Search for a movie, TV series...</i>
           </h1>
 
-          <form id="searchForm">
+          <form id="searchForm" onSubmit={this.onSubmit}>
             <input
               type="text"
               className="form-control"
@@ -34,4 +43,13 @@ class SearchForm extends Component {
 const mapStateToProps = (state) => ({
   text: state.movies.text,
 });
-export default connect(mapStateToProps, { searchMovie })(SearchForm);
+export default connect(mapStateToProps, {
+  searchMovie,
+  fetchMovies,
+  setLoading,
+})(SearchForm);
+
+// const mapDispatchToProps = (dispatch) => ({
+//   searchMovie: (text) => dispatch(searchMovie(text)),
+// });
+// export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);
