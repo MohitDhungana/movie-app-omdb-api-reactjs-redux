@@ -1,5 +1,6 @@
 import React from 'react';
 import spinner from './loading-arrow.gif';
+
 const Spinner = () => {
   return (
     <div>

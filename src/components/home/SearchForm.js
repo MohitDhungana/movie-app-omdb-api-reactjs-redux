@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import {
   searchMovie,
@@ -6,43 +6,43 @@ import {
   setLoading,
 } from '../../actions/searchActions';
 
-class SearchForm extends Component {
-  onChange = (e) => {
-    this.props.searchMovie(e.target.value);
+const SearchForm = ({ text, searchMovie, fetchMovies, setLoading }) => {
+  const onChange = (e) => {
+    searchMovie(e.target.value);
   };
-  onSubmit = (e) => {
+
+  const onSubmit = (e) => {
     e.preventDefault();
-    this.props.fetchMovies(this.props.text);
-    this.props.setLoading();
+    fetchMovies(text);
+    setLoading();
   };
+  return (
+    <div className="jumbotron jumbotron-fluid mt-5 text-center">
+      <div className="container">
+        <h1 className="display-4 mb-3">
+          <i className="fa fa-search"> Search for a movie, TV series...</i>
+        </h1>
 
-  render() {
-    return (
-      <div className="jumbotron jumbotron-fluid mt-5 text-center">
-        <div className="container">
-          <h1 className="display-4 mb-3">
-            <i className="fa fa-search"> Search for a movie, TV series...</i>
-          </h1>
+        <form id="searchForm" onSubmit={onSubmit}>
+          <input
+            type="text"
+            className="form-control"
+            name="searchText"
+            placeholder="Search for a movie, TV series..."
+            onChange={onChange}
+          />
 
-          <form id="searchForm" onSubmit={this.onSubmit}>
-            <input
-              type="text"
-              className="form-control"
-              name="searchText"
-              placeholder="Search for a movie, TV series..."
-              onChange={this.onChange}
-            />
-
-            <button className="btn btn-primary btn-bg mt-3">Search</button>
-          </form>
-        </div>
+          <button className="btn btn-primary btn-bg mt-3">Search</button>
+        </form>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
 const mapStateToProps = (state) => ({
   text: state.movies.text,
 });
+
 export default connect(mapStateToProps, {
   searchMovie,
   fetchMovies,
